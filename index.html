@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>Rede Neural</title>
+  <style>
+    .container {
+      margin: 30px 300px 30px 300px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .layer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .neuron {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 2px solid black;
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: bold;
+	  margin-top: 50px;
+      margin-bottom: 10px;
+    }
+    .neuron img {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      opacity: 1;
+    }
+    
+    .type2 {
+      background-image: url('wrinkled.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+	.inside{
+	  position: relative;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: bold;
+	  background-color: rgba(255, 255, 255, 1);
+	}
+    .slider-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .slider-label {
+      margin-bottom: 5px;
+    }
+    .slider {
+      width: 120px;
+      margin-bottom: 10px;
+    }
+	.weight {
+	  position: absolute;
+	  left: 100px;
+	  top: 100px;
+	}
+	.s1 {
+	  margin-top:0px;
+	  background-image: url('maca.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+	}
+	.s2 {
+	  margin-top:200px;
+	  background-image: url('laranja.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+	}
+	.conexao {
+      position: absolute;
+      height: 1px;
+      background-color: blue;
+      transform-origin: left top;
+    }
+	#s1c1 {
+	  left: 440px;
+	  top: 140px;
+	  width: 645px;
+	  transform: rotate(5deg);
+	}
+	#s1c2 {
+	  left: 440px;
+	  top: 375px;
+	  width: 657px;
+	  transform: rotate(-13.8deg);
+	}
+	#s1c3 {
+	  left: 440px;
+	  top: 610px;
+	  width: 743px;
+	  transform: rotate(-30deg);
+	}
+	
+	#s2c1 {
+	  left: 440px;
+	  top: 140px;
+	  width: 743px;
+	  transform: rotate(30deg);
+	}
+	#s2c2 {
+	  left: 440px;
+	  top: 375px;
+	  width: 657px;
+	  transform: rotate(13.8deg);
+	}
+	#s2c3 {
+	  left: 440px;
+	  top: 610px;
+	  width: 645px;
+	  transform: rotate(-5deg);
+	}
+	
+	.s1w1{
+	  left: 900px;
+	  top: 130px;
+	}
+	.s1w2{
+	  left: 850px;
+	  top: 200px;
+	}
+	.s1w3{
+	  left: 965px;
+	  top: 290px;
+	}
+	.s2w3{
+	  left: 900px;
+	  top: 565px;
+	}
+	.s2w2{
+	  left: 850px;
+	  top: 490px;
+	}
+	.s2w1{
+	  left: 965px;
+	  top: 400px;
+	}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="layer">
+	  <div class="neuron" style="background-color:white" id="sensor1">0</div>
+      <div class="slider-container">
+        <div class="slider-label">Amarelo:</div>
+        <input type="range" class="slider" min="0" max="1" step="0.1" value="0" oninput="updateSensorValue('sensor1', this.value)">
+      </div>
+      <div class="neuron" style="background-color:white" id="sensor2">0</div>
+      <div class="slider-container">
+        <div class="slider-label">Vermelho:</div>
+        <input type="range" class="slider" min="0" max="1" step="0.1" value="0" oninput="updateSensorValue('sensor2', this.value)">
+      </div>
+	  <div class="neuron type2">
+	    <div class="inside" id="sensor3">0</div>
+	  </div>
+      <div class="slider-container">
+        <div class="slider-label">Rugosidade:</div>
+        <input type="range" class="slider" min="0" max="1" step="0.1" value="0" oninput="updateSensorValue('sensor3', this.value)">
+      </div>
+    </div>
+    <div class="layer">
+	  <div class="slider-container weight s1w1">
+        <div class="slider-label"><span id="s1w1">0</span></div>
+        <input type="range" class="slider" min="-1" max="1" step="0.1" value="0" oninput="updateSensorValue('s1w1', this.value)">
+      </div>
+	  <div class="slider-container weight s1w2">
+        <div class="slider-label"><span id="s1w2">0</span></div>
+        <input type="range" class="slider" min="-1" max="1" step="0.1" value="0" oninput="updateSensorValue('s1w2', this.value)">
+      </div>
+	  <div class="slider-container weight s1w3">
+        <div class="slider-label"><span id="s1w3">0</span></div>
+        <input type="range" class="slider" min="-1" max="1" step="0.1" value="0" oninput="updateSensorValue('s1w3', this.value)">
+      </div>
+      <div class="neuron s1">
+        <div class="inside" id="saida1">0</div>
+      </div>
+	  <div class="slider-container weight s2w1">
+        <div class="slider-label"><span id="s2w1">0</span></div>
+        <input type="range" class="slider" min="-1" max="1" step="0.1" value="0" oninput="updateSensorValue('s2w1', this.value)">
+      </div>
+	  <div class="slider-container weight s2w2">
+        <div class="slider-label"><span id="s2w2">0</span></div>
+        <input type="range" class="slider" min="-1" max="1" step="0.1" value="0" oninput="updateSensorValue('s2w2', this.value)">
+      </div>
+	  <div class="slider-container weight s2w3">
+        <div class="slider-label"><span id="s2w3">0</span></div>
+        <input type="range" class="slider" min="-1" max="1" step="0.1" value="0" oninput="updateSensorValue('s2w3', this.value)">
+      </div>
+      <div class="neuron s2">
+        <div class="inside" id="saida2">0</div>
+      </div>
+    </div>
+	
+	<div class="conexao" id="s1c1"></div>
+	<div class="conexao" id="s1c2"></div>
+	<div class="conexao" id="s1c3"></div>
+	<div class="conexao" id="s2c1"></div>
+	<div class="conexao" id="s2c2"></div>
+	<div class="conexao" id="s2c3"></div>
+  </div>
+
+  <script>
+    function updateSensorValue(sensorId, value) {
+      const sensorElement = document.getElementById(sensorId);
+      const spanElement = sensorElement.querySelector("span");
+      const imgElement = sensorElement.querySelector("img");
+	  
+	  sensorElement.innerHTML = `${value}`;
+
+      if (sensorId === 'sensor1') {
+		sensorElement.style.backgroundColor = `rgba(255, 255, 0, ${value})`;
+	  } else if (sensorId === 'sensor2') {
+		sensorElement.style.backgroundColor = `rgba(255, 0, 0, ${value})`;
+	  } else if (sensorId === 'sensor3') {
+		sensorElement.style.backgroundColor = `rgba(255, 255, 255, ${1-value})`;
+	  }
+	  
+	  updateNeuronValues();
+	  
+	  if (sensorId.substring(2,3)== 'w'){
+	    changeLineThickness(sensorId, value);
+	  }
+    }
+	function updateNeuronValues() {
+      const sensor1 = parseFloat(document.getElementById('sensor1').innerHTML);
+      const sensor2 = parseFloat(document.getElementById('sensor2').innerHTML);
+	  const sensor3 = parseFloat(document.getElementById('sensor3').innerHTML);
+      const s1w1 = parseFloat(document.getElementById('s1w1').innerHTML);
+      const s1w2 = parseFloat(document.getElementById('s1w2').innerHTML);
+	  const s1w3 = parseFloat(document.getElementById('s1w3').innerHTML);
+	  const s2w1 = parseFloat(document.getElementById('s2w1').innerHTML);
+      const s2w2 = parseFloat(document.getElementById('s2w2').innerHTML);
+	  const s2w3 = parseFloat(document.getElementById('s2w3').innerHTML);
+	  
+	  const saida1 = document.getElementById('saida1');
+	  saida1.innerHTML = (sensor1*s1w1 + sensor2*s1w2 + sensor3*s1w3 + 0.5).toFixed(2);
+	  var saida1Opacity = (saida1.innerHTML - 0.5)*2;
+	  if (saida1Opacity < 0) saida1Opacity = 0;
+	  if (saida1Opacity > 1) saida1Opacity = 1;
+	  saida1.style.backgroundColor = `rgba(255, 255, 255, ${1-saida1Opacity})`;
+	  
+	  const saida2 = document.getElementById('saida2');
+	  saida2.innerHTML = (sensor1*s2w1 + sensor2*s2w2 + sensor3*s2w3).toFixed(2);
+	  var saida2Opacity = (saida2.innerHTML - 0.5)*2;
+	  if (saida2Opacity < 0) saida2Opacity = 0;
+	  if (saida2Opacity > 1) saida2Opacity = 1;
+	  saida2.style.backgroundColor = `rgba(255, 255, 255, ${1-saida2Opacity})`;
+	}
+	
+	function changeLineThickness(sensorId, value) {
+	  const lineId = sensorId.substring(0,2)+'c'+sensorId.substring(3,4);
+	  console.log(lineId);
+	  const line = document.getElementById(lineId);
+	  if(value>=0){
+		line.style.backgroundColor = "blue";
+	  }else{
+	    line.style.backgroundColor = "red";
+	  }
+	  line.style.height = Math.abs(value*10) + "px";
+    }
+  </script>
+</body>
+</html>
