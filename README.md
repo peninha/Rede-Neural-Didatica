@@ -14,3 +14,8 @@ Ou seja, cada entrada (Amarelo, Vermelho e Rugosidade) recebe um peso dado pelo 
 
 INSTALAÇÃO
 Baixe o conteúdo, coloque tudo numa pasta, e clique em index.html
+
+EXEMPLOS
+Deixei dois prints de exemplo de uma rede já razoavelmente ajustada recebendo entradas de uma laranja e de uma maçã.
+Exemplo-Laranja_01.png
+Exemplo-Maca_01.png
